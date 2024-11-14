@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TealCRM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fc;
+            font-family: Arial, sans-serif;
+        }
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(135deg, #2b3a42, #3d4c57);
+            color: #fff;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        /* Navbar Button Container */
+        .navbar-nav .nav-item {
+            margin: 0 5px;
+        }
+        .navbar-nav .nav-link-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            background-color: #4caf50;
+            color: #2e3b44;
+            text-align: center;
+        }
+        .navbar-nav .nav-link-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .nav-link-text {
+            color: white !important;
+            font-weight: bold;
+        }
+
+        /* Container Styling */
+        .container {
+            margin-top: 40px;
+        }
+        h3 {
+            color: #2e3b44;
+            font-weight: bold;
+        }
+        .lead-item {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .lead-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+        .lead-item h5 {
+            color: #2e3b44;
+            font-weight: bold;
+        }
+        .lead-actions .btn {
+            margin-right: 10px;
+        }
+        .lead-actions .btn-primary, .add-lead {
+            background: linear-gradient(135deg, #2b3a42, #3d4c57);;
+            color: #fff;
+            border: none;
+            transition: background 0.3s;
+        }
+        .lead-actions .btn-primary:hover, .add-lead:hover {
+            background: linear-gradient(135deg, #2b3a42, #3d4c57);
+        }
+        .add-lead {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
+
+        /* Footer Styling (Consistent Across Pages) */
+        footer {
+            background: linear-gradient(135deg, #2b3a42, #3d4c57);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        footer p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar with Styled Links -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">TealCRM</a>
+        <div class="navbar-nav ml-auto d-flex flex-wrap">
+            <div class="nav-item">
+                <div class="nav-link-box">
+                    {% if lead %}
+                        <a class="nav-link nav-link-text" href="{% url 'create_task' lead.id %}">Create Task</a>
+                    {% else %}
+                        <span class="nav-link nav-link-text disabled">Create Task</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-link-box">
+                    {% if lead %}
+                        <a class="nav-link nav-link-text" href="{% url 'create_interaction' lead.id %}">Add Interaction</a>
+                    {% else %}
+                        <span class="nav-link nav-link-text disabled">Add Interaction</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-link-box">
+                    <a class="nav-link nav-link-text" href="{% url 'home' %}">Home</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-link-box">
+                    <a class="nav-link nav-link-text" href="{% url 'create_lead' %}">Add Lead</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-link-box">
+                    <a class="nav-link nav-link-text" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h3 class="text-center">Welcome to the Lead Dashboard</h3>
+
+        <h4 class="mt-4">All Leads</h4>
+        <div class="row">
+            {% for lead in leads %}
+                <div class="col-md-4">
+                    <div class="lead-item">
+                        <h5>{{ lead.first_name }} {{ lead.last_name }}</h5>
+                        <p><strong>Email:</strong> {{ lead.email }}</p>
+                        <p><strong>Phone:</strong> {{ lead.phone }}</p>
+                        <p><strong>Company:</strong> {{ lead.company }}</p>
+                        <div class="lead-actions">
+                            <a class="btn btn-primary " style="background-color: #4caf50; color: white" href="{% url 'lead_detail' lead.id %}">View Details</a>
+                            <a class="btn btn-warning" style="background-color: #4caf50; color: white";  href="{% url 'edit_lead' lead.id %}">Edit</a>
+                            <a class="btn btn-danger" style="background-color: #4caf50; color: white"; href="{% url 'delete_lead' lead.id %}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No leads available.</p>
+                    <a class="add-lead" href="{% url 'create_lead' %}">Add Lead</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+</body>
+</html>
