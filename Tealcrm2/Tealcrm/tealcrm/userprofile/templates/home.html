@@ -197,6 +197,48 @@
         .social-icons a:hover {
             color:#3d4f5a;
         }
+         @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+                text-align: center;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            .intro h2 {
+                font-size: 1.8em;
+            }
+            .intro p {
+                font-size: 1em;
+            }
+            .features, .overview-features {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .feature-card, .overview-feature {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            .navbar a {
+                padding: 10px 12px;
+                font-size: 0.8em;
+            }
+            .intro h2 {
+                font-size: 1.6em;
+            }
+            .intro p {
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
